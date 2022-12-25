@@ -1,6 +1,6 @@
 {
   "name": "react-simple-keys",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A React Hook to handle shortcuts in your WebApp",
   "homepage": "https://github.com/franciscop/react-simple-keys.git",
   "repository": "https://github.com/franciscop/react-simple-keys.git",
