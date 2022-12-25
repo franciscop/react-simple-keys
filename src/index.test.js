@@ -1,13 +1,13 @@
 import React from "react";
 import $ from "react-test";
-import useShortcuts from "./";
+import useKeys from "./";
 
 const Demo = ({ short, shortcuts, children }) => {
-  useShortcuts(short || shortcuts);
+  useKeys(short || shortcuts);
   return children ? children : <div>Hello</div>;
 };
 
-describe("useShortcuts()", () => {
+describe("useKeys()", () => {
   it("can detect pressing a single key on the window", async () => {
     const fn = jest.fn();
     const demo = $(<Demo shortcuts={{ k: fn }} />);
