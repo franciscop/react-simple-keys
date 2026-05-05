@@ -1,88 +1,93 @@
-import React from "react";
 import $ from "react-test";
-import useKeys from "./";
+import useKeys, { type Shortcuts } from ".";
 
-const Demo = ({ short, shortcuts, children }) => {
-  useKeys(short || shortcuts);
+interface DemoProps {
+  short?: Shortcuts;
+  shortcuts?: Shortcuts;
+  children?: React.ReactNode;
+}
+
+const Demo = ({ short, shortcuts, children }: DemoProps) => {
+  useKeys((short || shortcuts) as Shortcuts);
   return children ? children : <div>Hello</div>;
 };
 
 describe("useKeys()", () => {
   it("can detect pressing a single key on the window", async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const demo = $(<Demo shortcuts={{ k: fn }} />);
     await demo.trigger("keydown", { key: "k", target: window });
     expect(fn).toBeCalled();
   });
 
   it("can detect pressing a single key on the body", async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const demo = $(<Demo shortcuts={{ k: fn }} />);
     await demo.trigger("keydown", { key: "k", target: window.document.body });
     expect(fn).toBeCalled();
   });
 
   it("ignores pressing a key while in an input", async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const demo = $(
       <Demo shortcuts={{ k: fn }}>
         <input />
-      </Demo>
+      </Demo>,
     );
     await demo.trigger("keydown", { key: "k" });
     expect(fn).not.toBeCalled();
   });
 
   it("can be forced to use the input as a listener", async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const demo = $(
       <Demo shortcuts={{ "input:k": fn }}>
         <input />
-      </Demo>
+      </Demo>,
     );
     await demo.trigger("keydown", { key: "k" });
     expect(fn).toBeCalled();
   });
 
   it("forced elements only trigger while in that element", async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const demo = $(
       <Demo shortcuts={{ "input:k": fn }}>
         <input />
-      </Demo>
+      </Demo>,
     );
     await demo.trigger("keydown", { key: "k", target: window });
     expect(fn).not.toBeCalled();
   });
 
   it("forced anything trigger on window events", async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const demo = $(<Demo shortcuts={{ "*:k": fn }} />);
     await demo.trigger("keydown", { key: "k", target: window });
     expect(fn).toBeCalled();
   });
 
   it("forced anything trigger on body events", async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const demo = $(<Demo shortcuts={{ "*:k": fn }} />);
     await demo.trigger("keydown", { key: "k", target: window });
     expect(fn).toBeCalled();
   });
 
   it("forced anything trigger on input events", async () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
     const demo = $(
       <Demo shortcuts={{ "*:k": fn }}>
         <input />
-      </Demo>
+      </Demo>,
     );
     await demo.trigger("keydown", { key: "k" });
     expect(fn).toBeCalled();
   });
 
   it("works with nicknames", async () => {
-    const testShortcut = async (key, extraKey) => {
-      const fn = jest.fn();
+    const testShortcut = async (key: string, extraKey: string) => {
+      const fn = vi.fn();
       const demo = await $(<Demo short={{ [key]: fn }} />);
       await demo.trigger("keydown", { key: extraKey, target: window });
       return fn;
