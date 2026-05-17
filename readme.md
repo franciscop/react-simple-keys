@@ -1,4 +1,4 @@
-# react-simple-keys
+# react-simple-keys [![react-simple-keys](https://img.shields.io/npm/v/react-simple-keys?label=react-simple-keys&color=greenlime)](https://www.npmjs.com/package/react-simple-keys) [![tests](https://github.com/franciscop/react-simple-keys/workflows/tests/badge.svg)](https://github.com/franciscop/react-simple-keys/actions) [![gzip size](https://img.badgesize.io/franciscop/react-simple-keys/master/index.min.js.svg?label=gzip&logo=&compression=gzip)](https://github.com/franciscop/react-simple-keys/blob/master/index.min.js) [![dependencies](https://img.shields.io/badge/dependencies-0-limegreen.svg)](https://github.com/franciscop/react-simple-keys/blob/master/package.json)
 
 A React Hook to easily create shortcuts with a hook:
 
