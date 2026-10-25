@@ -85,6 +85,20 @@ describe("useKeys()", () => {
     expect(fn).toBeCalled();
   });
 
+  it("treats cmd as the meta key", async () => {
+    const fn = vi.fn();
+    const demo = $(<Demo shortcuts={{ "cmd+k": fn }} />);
+    await demo.trigger("keydown", { key: "k", metaKey: true, target: window });
+    expect(fn).toBeCalled();
+  });
+
+  it("can negate cmd", async () => {
+    const fn = vi.fn();
+    const demo = $(<Demo shortcuts={{ "!cmd+k": fn }} />);
+    await demo.trigger("keydown", { key: "k", metaKey: true, target: window });
+    expect(fn).not.toBeCalled();
+  });
+
   it("works with nicknames", async () => {
     const testShortcut = async (key: string, extraKey: string) => {
       const fn = vi.fn();
@@ -96,6 +110,7 @@ describe("useKeys()", () => {
     expect(await testShortcut(" ", " ")).toHaveBeenCalled();
     expect(await testShortcut("Esp", " ")).toHaveBeenCalled();
     expect(await testShortcut("Espace", " ")).toHaveBeenCalled();
+    expect(await testShortcut("space", " ")).toHaveBeenCalled();
     expect(await testShortcut("Up", "ArrowUp")).toHaveBeenCalled();
     expect(await testShortcut("up", "ArrowUp")).toHaveBeenCalled();
     expect(await testShortcut("arrowup", "ArrowUp")).toHaveBeenCalled();

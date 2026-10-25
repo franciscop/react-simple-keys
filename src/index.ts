@@ -16,8 +16,8 @@ const toShortNames = (name: string): string => {
   if (name === "arrowup") return "up";
   if (name === "arrowdown") return "down";
   if (name === "esc") return "escape";
-  if (name === "esp") return "espace";
-  if (name === " ") return "espace";
+  if (name === " " || name === "esp" || name === "espace") return "space";
+  if (name === "cmd") return "meta";
   return name;
 };
 
@@ -54,6 +54,7 @@ export default function useShortcuts(keys: Shortcuts): void {
             negate = true;
             k = k.slice(0, -1);
           }
+          k = toShortNames(k);
           if (k === key) continue;
           if ((e as unknown as Record<string, boolean>)[k + "Key"] === !negate)
             continue;
